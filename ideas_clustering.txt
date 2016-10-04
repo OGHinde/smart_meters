@@ -1,0 +1,29 @@
++++ IDEAS CLUSTERING +++
+
+DENTRO DEL ESQUEMA SEMANAL QUE HEMOS DEFINIDO:
+
+¿La normalización no elimina información relevante? (¡¡No es lo mismo consumir 200W que 6000W de media en una semana!! Aunque los perfiles se parezcan)
+- Si las medias que extraemos las tenemos en cuenta después… no?
+- O normalizamos a máximos y mínimos simplemente? Esto pensando en hacer luego regresión.
+
+
+Agrupando todo:
+	- Ver qué comportamientos son exclusivos de cada estación.
+	- Comprobar consistencia de miembros de cada cluster.
+	- Comprobar qué pasa con el reparto de sujetos al aumentar k.
+
+Agrupando por conjuntos de datos:
+	- Ver comportamientos diferenciados según conjuntos.
+	- Ver qué comportamientos són típicos de un conjunto (o comunes a varios).
+	- Posibles conjuntos diferenciados de datos:
+		- Utilizando el flag de horario verano/invierno.
+		- Según estaciones.
+		- Periodos de vacaciones típicos (Semana Santa, navidades, Verano, ...)
+		- Fines de semana/laborables.
+
+OTROS ESQUEMAS:
+
+- Diario (por horas)
+- Mensual (por días, periodos de 30)
+- Estacional
+- Anual (la serie completa)
