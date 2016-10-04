@@ -31,6 +31,8 @@ kmeans_log = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/fi
 gmm_figs = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/GMM/'
 gmm_log = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/Kmeans/GMM_results.txt'
 
+# LALALALAL
+
 # General functions.
 def delete_figures(path):
     """Delete all images in the directory specified by path"""
