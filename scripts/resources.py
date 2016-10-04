@@ -10,26 +10,26 @@ Modify this module with your relevant local paths.
 import os
 
 # General data paths.
-smartMeters_raw_csv = ''
-smartMeters_prep_csv = ''
+smartMeters_raw_csv = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/extraccionLimpios.csv'
+smartMeters_prep_csv = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/extraccion_prep.csv'
 
-clustering_matrix_D = ''
-clustering_matrix_8h = ''
-clustering_matrix_6h = ''
+clustering_matrix_D = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrix_D.pickle'
+clustering_matrix_8h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrix_8h.pickle'
+clustering_matrix_6h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrix_6h.pickle'
 
 
-base_matrix_D = ''
-base_matrix_8h = ''
-base_matrix_6h = ''
-base_matrix_1h = ''
+base_matrix_D = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_D.pickle'
+base_matrix_8h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_8h.pickle'
+base_matrix_6h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_6h.pickle'
+base_matrix_1h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_1h.pickle'
 
-clustering_dframe = ''
-general_data = ''
+clustering_dframe = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_dataframe.csv'
+general_data = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/general_data.pickle'
 
-kmeans_figs = ''
-kmeans_log = ''
-gmm_figs = ''
-gmm_log = ''
+kmeans_figs = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/Kmeans/'
+kmeans_log = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/Kmeans/K_means_results.txt'
+gmm_figs = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/GMM/'
+gmm_log = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/figures/Kmeans/GMM_results.txt'
 
 # General functions.
 def delete_figures(path):
