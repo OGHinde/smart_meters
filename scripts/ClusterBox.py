@@ -48,7 +48,7 @@ def ClusterBox(clustering_matrix, K):
 
     #GMM CLUSTERING
     if clust_alg[method]== 'GMM':
-        clf = mixture.GMM(n_components=K, covariance_type='full', n_init=2, n_iter=10)
+        clf = mixture.GaussianMixture(n_components=K, covariance_type='full', n_init=2, max_iter=500)
         clf.fit(clustering_matrix)
         codes_labels = clf.predict(clustering_matrix)
         # Analize clustering results.
