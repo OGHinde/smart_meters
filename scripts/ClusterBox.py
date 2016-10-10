@@ -13,6 +13,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import cluster
+from sklearn import mixture
 from scipy.spatial import distance
 
 #General function
@@ -47,7 +48,7 @@ def ClusterBox(clustering_matrix, K):
 
     #GMM CLUSTERING
     if clust_alg[method]== 'GMM':
-        clf = cluster.mixture.GMM(n_components=K, covariance_type='full', n_init=2, n_iter=10)
+        clf = mixture.GMM(n_components=K, covariance_type='full', n_init=2, n_iter=10)
         clf.fit(clustering_matrix)
         codes_labels = clf.predict(clustering_matrix)
         # Analize clustering results.
