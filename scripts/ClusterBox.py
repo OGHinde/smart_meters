@@ -56,7 +56,7 @@ def ClusterBox(clustering_matrix, K):
         for k in range(K):
             # np.where returns a tuple, indexes are in position [0]
             cluster_sizes.append(len(np.where(codes_labels == k)[0]))
-            codes_for_this_cluster = [np.where(codes_labels == k)]
+            codes_for_this_cluster = np.where(codes_labels == k)
             codes_per_cluster.append(codes_for_this_cluster)
 
 

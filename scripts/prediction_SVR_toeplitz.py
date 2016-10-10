@@ -10,6 +10,7 @@ GP_pred(X, y, m): windowed Gaussian process prediction.
 # Initialise and import.
 print '\nInit.'
 import resources
+import ClusterBox
 import sys
 import pandas as pd
 pd.options.mode.chained_assignment = None  # Eliminate pandas' warnings. Default='warn'
@@ -17,40 +18,55 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcess
 from sklearn.svm import SVR
-print 'Importing cPickle...'
+print "Importing cPickle..."
 # Use cPickle if possible. It's much faster!
 try:
     import cPickle as pickle
-    print 'Success!'
+    print "Success!"
 except:
     import pickle
-    print 'Failed. Defaulted to pickle.'
+    print "Failed. Defaulted to pickle."
 
-print('Python version ' + sys.version)
+print("Python version " + sys.version)
 
 # Check that the paths to the data are correct!
-print '\nInput path set to '+resources.base_matrix_1h
-
+print "\nInput path set to "+resources.base_matrix_1h
+print "\nLoading Data..."
 # Load preprocessed data respecting datetime index.
 with open(resources.base_matrix_1h, 'r') as f:
     clustering_matrix, codes = pickle.load(f) 
 
-m = 96 # predictor memory.
+K = 1   # number of clusters.
+m = 96  # predictor memory.
 dims = clustering_matrix.shape
 
+print "Number of clusters = {}".format(K)
+print "Predictor memory = {}".format(m)
+
+print "\nNormalizing data..."
 time_series_list = []
 mx = np.mean(clustering_matrix, axis=1)
 stdx = np.std(clustering_matrix, axis=1, dtype=np.float64)
 #clustering_matrix = clustering_matrix-np.array([mx,]*dims[1]).transpose()
 clustering_matrix = np.divide((clustering_matrix-np.array([mx,]*dims[1]).transpose()), 
                                np.array([stdx,]*dims[1]).transpose())
-                               
-time_series_list.append(np.mean(clustering_matrix, axis=0))
-n_clusters = len(time_series_list)
+                
+if K == 1:       
+    print "\nNo clustering specified."
+    time_series_list.append(np.mean(clustering_matrix, axis=0))
+else:
+    print "\nClustering..."
+    clustering_indexes = np.squeeze(ClusterBox.ClusterBox(clustering_matrix, K))
+    for k in range(K):
+        time_series_list.append(np.mean(clustering_matrix[clustering_indexes[k],:], axis=0))
+    
+
 val_scores = []
 tst_scores = []
 tr_scores = []
+svr_tst_hat = []
 
+print "\nPrediction..."
 for time_series in time_series_list:
     l = time_series.shape[0]-time_series.shape[0]%(m+1) # time series length
     time_series = time_series[:l]
@@ -81,26 +97,35 @@ for time_series in time_series_list:
     val_score = svr.score(X_val, y_val)
     tr_score = svr.score(X_tr, y_tr)
 
-    svr_tst_hat = svr.predict(X_tst)
+    svr_tst_hat.append(svr.predict(X_tst))
     
     tst_scores.append(tst_score)
     val_scores.append(val_score)
     tr_scores.append(tr_score)
 
-    for k, score in enumerate(tr_scores):
-        print "\nSVR train score for cluster {} = {}".format(k, score)
-    for k, score in enumerate(val_scores):
-        print "\nSVR validation score for cluster {} = {}".format(k, score)
-    for k, score in enumerate(tst_scores):
-        print "\nSVR test score for cluster {} = {}".format(k, score)
-        
+for k, score in enumerate(tst_scores):
+    print "\nSVR test score for cluster {} = {}".format(k, score)
+print "\nOverall test score = {}".format(np.mean(tst_scores))
+
+
+
 #%% Plotting block
     
 fig = plt.figure()    
 plt.plot(y_tst, 'k', label='Real target')
-plt.plot(svr_tst_hat, 'r--', label='SVR prediciton')
+plt.plot(np.mean(svr_tst_hat, axis=0), 'r--', label='SVR prediciton')
 plt.legend()
 plt.title('1 week prediction results.')
 axes = plt.gca()
-axes.set_xlim([2000,2168])
+axes.set_xlim([2000,2600])
 plt.show()
+fig.savefig(str(K)+' clusters_week_prediction.png', format='png', dpi=500, bbox_inches='tight')
+
+fig = plt.figure()    
+plt.plot(y_tst, 'k', label='Real target')
+plt.plot(np.mean(svr_tst_hat, axis=0), 'r--', label='SVR prediciton')
+plt.legend()
+plt.title('1 year prediction results.')
+axes = plt.gca()
+plt.show()
+fig.savefig(str(K)+' clusters_year_prediction.png', format='png', dpi=500, bbox_inches='tight')
