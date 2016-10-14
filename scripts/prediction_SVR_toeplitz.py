@@ -31,12 +31,13 @@ print("Python version " + sys.version)
 
 # Check that the paths to the data are correct!
 print "\nInput path set to "+resources.base_matrix_1h
+
 print "\nLoading Data..."
 # Load preprocessed data respecting datetime index.
 with open(resources.base_matrix_1h, 'r') as f:
     clustering_matrix, codes = pickle.load(f) 
 
-K = 1   # number of clusters.
+K = 0  # number of clusters.
 m = 96  # predictor memory.
 dims = clustering_matrix.shape
 
@@ -44,14 +45,20 @@ print "Number of clusters = {}".format(K)
 print "Predictor memory = {}".format(m)
 
 print "\nNormalizing data..."
-time_series_list = []
 mx = np.mean(clustering_matrix, axis=1)
 stdx = np.std(clustering_matrix, axis=1, dtype=np.float64)
 #clustering_matrix = clustering_matrix-np.array([mx,]*dims[1]).transpose()
 clustering_matrix = np.divide((clustering_matrix-np.array([mx,]*dims[1]).transpose()), 
                                np.array([stdx,]*dims[1]).transpose())
-                
-if K == 1:       
+
+time_series_list = []
+if K == 0:
+    print "Loading week clustering results..."
+    with open(resources.cluster_index_list, 'r') as f:
+        clustering_indexes = pickle.load(f)
+    for i in range(len(clustering_indexes)):
+        time_series_list.append(np.mean(clustering_matrix[clustering_indexes[i],:], axis=0))
+elif K == 1:       
     print "\nNo clustering specified."
     time_series_list.append(np.mean(clustering_matrix, axis=0))
 else:
@@ -60,7 +67,7 @@ else:
     for k in range(K):
         time_series_list.append(np.mean(clustering_matrix[clustering_indexes[k],:], axis=0))
     
-
+K = len(time_series_list)
 val_scores = []
 tst_scores = []
 tr_scores = []

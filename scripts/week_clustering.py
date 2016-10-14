@@ -88,12 +88,11 @@ with open(resources.kmeans_log, "w") as text_file:
         text_file.write("\n\tNumber of smart meters: {0}".format(codes_per_cluster[k]))    
         
 # Saving block
-clustering_dframe.to_csv(resources.clustering_dframe)
+clustering_dframe.to_csv(resources.week_clustering_dframe)
 with open(resources.general_data, 'w') as f:
 	pickle.dump([unique_codes, n_codes], f)
 code_index = np.asarray(code_index)
         
-    
 # Plotting block. Note that this won't work when executed from the terminal.
 resources.delete_figures(resources.kmeans_figs)    # Clean previous plots
 for k in range(K):
