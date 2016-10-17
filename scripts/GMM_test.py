@@ -57,7 +57,7 @@ clf = GMM(n_components=K, covariance_type='full', random_state=0)
 clf.fit(clustering_matrix)
 labels = clf.predict(clustering_matrix)
 prob, weights = clf.score_samples(clustering_matrix)
-
+#%%
 # Create dataframes
 clustering_dframe = pd.DataFrame(clustering_matrix, columns=x_tick_labels)
 clustering_dframe['Cluster'] = pd.Series(labels)
@@ -164,36 +164,36 @@ for i in range(n_codes):
 # plt.legend()
 # fig.savefig(resources.kmeans_figs+'cluster_'+str(k)+'info.png',  format='png', dpi=500,  bbox_inches='tight')  
 
-#%%
-fig = plt.figure()
-c = ['r', 'g', 'b', 'y'] 
-ax = Axes3D(fig)
-for i in range(K2):
-    ax.scatter(PCA_weights[labels == i,:][:,0], PCA_weights[labels == i,:][:,1], PCA_weights[labels == i,:][:,2], c=c[i])
-
-for ii in xrange(0,360,1):
-    ax.view_init(elev=10., azim=ii)
-    fig.savefig(resources.gmm_figs+"movie/movie"+str(ii)+".png", format='png', dpi=200)
-
-#%%
-fig = plt.figure()
-c = ['r', 'g', 'b']
-for i in range(K2):
-    plt.scatter(PCA_weights[labels == i,:][:,0], PCA_weights[labels == i,:][:,1], c=c[i], marker='o')
-                
-plt.show()  
-fig.savefig(resources.gmm_figs+'2D_meter_code_clusters.png', format='png', dpi=200, bbox_inches='tight')
-
-#%%
-
-c = ['maroon', 'orangered','orange', 'peachpuff']
-for i in range(K2):
-    idx = np.argsort(clf2.means_[i])[:4]
-    fig = plt.figure()
-    for j in range(len(idx)):
-        plt.plot(clf.means_[idx[j], :7], c=c[j])
-    plt.xticks(range(len(x_tick_labels)), x_tick_labels, rotation='vertical', fontsize=10)
-    fig.savefig(resources.gmm_figs+'group'+str(i)+'.png', format='png', dpi=200, bbox_inches='tight')
+##%%
+#fig = plt.figure()
+#c = ['r', 'g', 'b', 'y'] 
+#ax = Axes3D(fig)
+#for i in range(K2):
+#    ax.scatter(PCA_weights[labels == i,:][:,0], PCA_weights[labels == i,:][:,1], PCA_weights[labels == i,:][:,2], c=c[i])
+#
+#for ii in xrange(0,360,1):
+#    ax.view_init(elev=10., azim=ii)
+#    fig.savefig(resources.gmm_figs+"movie/movie"+str(ii)+".png", format='png', dpi=200)
+#
+##%%
+#fig = plt.figure()
+#c = ['r', 'g', 'b']
+#for i in range(K2):
+#    plt.scatter(PCA_weights[labels == i,:][:,0], PCA_weights[labels == i,:][:,1], c=c[i], marker='o')
+#                
+#plt.show()  
+#fig.savefig(resources.gmm_figs+'2D_meter_code_clusters.png', format='png', dpi=200, bbox_inches='tight')
+#
+##%%
+#
+#c = ['maroon', 'orangered','orange', 'peachpuff']
+#for i in range(K2):
+#    idx = np.argsort(clf2.means_[i])[:4]
+#    fig = plt.figure()
+#    for j in range(len(idx)):
+#        plt.plot(clf.means_[idx[j], :7], c=c[j])
+#    plt.xticks(range(len(x_tick_labels)), x_tick_labels, rotation='vertical', fontsize=10)
+#    fig.savefig(resources.gmm_figs+'group'+str(i)+'.png', format='png', dpi=200, bbox_inches='tight')
 
 
 
