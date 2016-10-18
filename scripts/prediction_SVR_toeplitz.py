@@ -9,8 +9,8 @@ GP_pred(X, y, m): windowed Gaussian process prediction.
 
 # Initialise and import.
 print '\nInit.'
-import ClusterWeeks
 import resources
+import ClusterWeeks
 import ClusterBox
 import sys
 import pandas as pd
@@ -55,10 +55,9 @@ clustering_matrix = np.divide((clustering_matrix-np.array([mx,]*dims[1]).transpo
 time_series_list = []
 if K == 0:
     print "Loading week clustering results..."
-    with open(resources.cluster_index_list_, 'r') as f:
-        clustering_indexes = pickle.load(f)
-    for i in range(len(clustering_indexes)):
-        time_series_list.append(np.mean(clustering_matrix[clustering_indexes[i],:], axis=0))
+    cluster_index_list, weights = ClusterWeeks.week_based_clustering()
+    for i in range(len(clustering_index_list)):
+        time_series_list.append(np.mean(clustering_matrix[clustering_index_list[i],:], axis=0))
 elif K == 1:       
     print "\nNo clustering specified."
     time_series_list.append(np.mean(clustering_matrix, axis=0))

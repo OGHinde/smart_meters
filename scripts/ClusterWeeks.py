@@ -36,12 +36,16 @@ def week_based_clustering(n_week_clusters=8, n_user_clusters=4, week_cluster_met
 	# INIT STAGE
 	methods = ['GMM', 'KMeans']
 	aggregators = ['D', '8h', '6h']
+
+	# Value check
 	if n_week_clusters<2 or n_user_clusters<2:
 		raise ValueError('Please specify a valid number of clusters (more than two).')
-	if week_cluster_method not in methods or user_cluster_method not in methods:
-		raise ValueError('Wrong method or no method specified.')
+	if week_cluster_method not in methods:
+		raise ValueError('Wrong week clustering method specified: '+str(week_cluster_method))
+	if user_cluster_method not in methods:
+		raise ValueError('Wrong user clustering method specified: '+str(user_cluster_method))
 	if aggregation_period not in aggregators:
-		raise ValueError('Wrong period or no period specified.')
+		raise ValueError('Wrong period aggregation specified: '+str(aggregation_period))
 
 	print 'Loading data...'
 	EPS = sys.float_info.epsilon 
@@ -96,17 +100,19 @@ def week_based_clustering(n_week_clusters=8, n_user_clusters=4, week_cluster_met
    		clst = KMeans(n_clusters=n_user_clusters, precompute_distances=True, max_iter=500, n_init=20)
 		clst.fit(user_weight_means)
 		labels = clst.predict(user_weight_means)
+		weights = np.zeros((n_codes, n_user_clusters))
+		for i, k in enumerate(labels):
+			weights[i, k] = 1
 
    	if user_cluster_method=='GMM':
    		print 'Performing GMM clustering for users...'
 		clst = GaussianMixture(n_components=n_user_clusters, covariance_type='full', random_state=0)
 		clst.fit(user_weight_means)
 		labels = clst.predict(user_weight_means)
+		weights = clst.predict_proba(user_weight_means)
 
-	# Save results
-	print 'Saving results...'
 	cluster_index_list = []
 	for k in range(n_user_clusters):
 	    cluster_index_list.append(np.where(labels == k)[0].tolist())
 	    
-	return cluster_index_list
+	return cluster_index_list, weights
