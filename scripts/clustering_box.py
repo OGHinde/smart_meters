@@ -36,7 +36,7 @@ def baseline_clustering(clustering_matrix, n_user_clusters=4, cluster_method='GM
 
     #KMEANS CLUSTERING
     if cluster_method == 'Kmeans':
-
+        print "Performing KMeans clustering..."
         clf = cluster.KMeans(n_clusters=n_user_clusters, precompute_distances=True, max_iter=500, n_init=20)
         clf.fit(clustering_matrix)
 
@@ -51,6 +51,7 @@ def baseline_clustering(clustering_matrix, n_user_clusters=4, cluster_method='GM
 
     #GMM CLUSTERING
     if cluster_method == 'GMM':
+        print "Performing GMM clustering..."
         clf = mixture.GaussianMixture(n_components=n_user_clusters, covariance_type='full', n_init=2, max_iter=500)
         clf.fit(clustering_matrix)
         codes_labels = clf.predict(clustering_matrix)
@@ -65,6 +66,7 @@ def baseline_clustering(clustering_matrix, n_user_clusters=4, cluster_method='GM
 
     # SPECTRAL CLUSTERING
     if cluster_method == 'Spectral':
+        print "Performing spectral clustering..."
         clf = cluster.SpectralClustering(n_clusters=n_user_clusters, eigen_solver=None, random_state=None, n_init=10, gamma=0.01,
                                     affinity='rbf', eigen_tol=0.0, assign_labels='kmeans', kernel_params=None)
         clf.fit(clustering_matrix)

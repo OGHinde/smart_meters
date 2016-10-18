@@ -22,3 +22,6 @@ try:
 except:
     import pickle
     print "Failed. Defaulted to pickle."
+
+def toeplitz_SVR_predict():
+	

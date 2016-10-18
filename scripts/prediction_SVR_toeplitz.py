@@ -82,10 +82,10 @@ for time_series in time_series_list:
     toeplitz = np.zeros((l-m, m+1,))               
     for i in range(l-m):
         toeplitz[i, :] = time_series[i:i+m+1]        
-#    mx = np.mean(toeplitz, axis=1)
-#    stdx = np.std(toeplitz, axis=1, dtype=np.float64)
-#    toeplitz = np.divide((toeplitz-np.array([mx,]*(m+1)).transpose()), 
-#                            np.array([stdx,]*(m+1)).transpose())
+    mx = np.mean(toeplitz, axis=1)
+    stdx = np.std(toeplitz, axis=1, dtype=np.float64)
+    toeplitz = np.divide((toeplitz-np.array([mx,]*(m+1)).transpose()), 
+                           np.array([stdx,]*(m+1)).transpose())
     
     n_tr = int((l-m)*0.4)
     n_val = int((l-m)*0.3)
