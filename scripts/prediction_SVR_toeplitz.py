@@ -19,14 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcess
 from sklearn.svm import SVR
-print "Importing cPickle..."
-# Use cPickle if possible. It's much faster!
-try:
-    import cPickle as pickle
-    print "Success!"
-except:
-    import pickle
-    print "Failed. Defaulted to pickle."
+
 
 print("Python version " + sys.version)
 
