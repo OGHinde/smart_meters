@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Main test execution script"""
+"""Main test script"""
 
 # Author: Óscar G. Hinde
 
@@ -31,12 +31,12 @@ parser.add_argument("user_K", type=int, help="The number of user clusters.")
 args = parser.parse_args()
 
 print '\n\nSTART'
-print '\Testing for {} scenario, with {} week behaviour groups and {} user groups.'.format(args.scenario, args.week_K, args.user_K)
+print '\nTesting for {} scenario, with {} week behaviour groups and {} user groups.'.format(args.scenario, args.week_K, args.user_K)
 n_tr = 0.4
 n_val = 0.4
 n_tst = n_tr-n_val
 
-with open(resources.base_matrix_1h, 'r') as f:
+with open(resources.base_matrix_D, 'r') as f:
     clustering_matrix, codes = pickle.load(f)
 
 dims = clustering_matrix.shape
@@ -45,35 +45,30 @@ stdx = np.std(clustering_matrix, axis=1, dtype=np.float64)
 #clustering_matrix = clustering_matrix-np.array([mx,]*dims[1]).transpose()
 clustering_matrix = np.divide((clustering_matrix-np.array([mx,]*dims[1]).transpose()), 
                                np.array([stdx,]*dims[1]).transpose())
-
 # LOAD DATA
 if args.scenario == 'weekly':
-	
-	with open(resources.clustering_matrices_D, 'r') as f:
-		tr_clustering_matrix, tr_code_index, val_clustering_matrix, val_code_index = pickle.load(f)
+    with open(resources.clustering_matrices_8h, 'r') as f:
+        tr_clustering_matrix, tr_code_index, val_clustering_matrix, val_code_index = pickle.load(f)
+    tr_clustering_matrix = np.concatenate((tr_clustering_matrix, val_clustering_matrix))
+    tr_code_index += val_code_index 
 
-	print '\n\nCLUSTERING:\n'
-	cluster_index_list, weights = clustering_box.week_based_clustering(tr_clustering_matrix, 
-																	   tr_code_index, 
-										 							   n_week_clusters=args.week_K, 
-										 							   n_user_clusters=args.user_K)
-
-	print '\n\nPREDICTION:\n'
-	tr_scores, tst_scores, svr_tst_hat = prediction_box.toeplitz_SVR_test(clustering_matrix, cluster_index_list)
-	avg_val = np.mean(val_scores)
-	avg_series = np.mean(svr_val_hat, axis=0)
-
-	print '\n\nRESULTS:\n'
-	print 'Cluster validation scores for {} week behaviour groups and {} user groups:'.format(args.week_K, args.user_K)
-	print val_scores
-	print '\nAverage validation score:'
-	print avg_val
-
-	save_path = resources.val_results_path+'val_{}_{}.pickle'.format(args.week_K, args.user_K)
-	print '\nSaving results to: '
-	print save_path
-
-	with open(save_path, 'w') as f:
-		pickle.dump([avg_val, avg_series], f)
-
-	print '\n\nDone!'
+    print '\n\nCLUSTERING:\n'
+    cluster_index_list, weights = clustering_box.week_based_clustering(tr_clustering_matrix, tr_code_index, n_week_clusters=args.week_K, n_user_clusters=args.user_K)
+    
+    print '\n\nPREDICTION:\n'
+    tr_scores, tst_scores, svr_tst_hat = prediction_box.toeplitz_SVR_test(clustering_matrix, cluster_index_list, memory=5)
+    avg_tst = np.mean(tst_scores)
+    avg_series = np.mean(svr_tst_hat, axis=0)
+    
+    print '\n\nRESULTS:\n'
+    print 'Cluster test scores for {} week behaviour groups and {} user groups:'.format(args.week_K, args.user_K)
+    print tst_scores
+    print '\nAverage test score:'
+    print avg_tst
+    
+    save_path = resources.tst_results_path+'tst_{}_{}.pickle'.format(args.week_K, args.user_K)
+    print '\nSaving results to: '
+    print save_path
+    with open(save_path, 'w') as f:
+        pickle.dump([avg_tst, avg_series], f)
+    print '\n\nDone!'

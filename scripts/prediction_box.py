@@ -68,6 +68,7 @@ def toeplitz_SVR_validate(X, cluster_index_list, memory=96):
 
 def toeplitz_SVR_test(X, cluster_index_list, memory=96):
 
+    print 'Calculating test results...'
     K = len(cluster_index_list)
     tr_scores = []
     tst_scores = []

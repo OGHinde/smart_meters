@@ -1,0 +1,23 @@
+++ PAPER PLANING ++
+
+Experiments:
+	
+	Baseline using both GMM & Spectral clustering schemes:
+		- 1h prediction.
+		- 6h prediction.
+		- 8h prediction.
+		- 1D prediction.
+	
+	Weekly behaviour modeling and frequency-based feature extraction:
+		- Extract weekly behaviours with 1h, 8h and 1D agregation schemes (GMM clustering).
+		- 1h prediction.
+		- 6h prediction.
+		- 8h prediction.
+		- 1D prediction.
+
+	Weekly behaviour modeling and transition-based feature extraction:
+		- Extract weekly behaviours with 1h, 8h and 1D agregation schemes (GMM clustering).
+		- 1h prediction.
+		- 6h prediction.
+		- 8h prediction.
+		- 1D prediction.

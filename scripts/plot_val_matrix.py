@@ -13,9 +13,9 @@ import resources
 import matplotlib
 
 # Read data
-val_matrix = np.zeros((4, 9))
-for x, i in enumerate(range(2, 6)):
-    for y, j in enumerate(range(2, 11)):
+val_matrix = np.zeros((18,8))
+for x, i in enumerate(range(2, 20)):
+    for y, j in enumerate(range(2, 10)):
         thing =  'val_{}_{}.pickle'.format(i, j)
         with open(resources.val_results_path+thing, 'r') as f:
             avg_val, avg_series = pickle.load(f)

@@ -19,6 +19,8 @@ clustering_matrices = '/Users/oghinde/Academia/Research_projects/smart_grids/Ibe
 clustering_matrices_D = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrices_D.pickle'
 clustering_matrices_8h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrices_8h.pickle'
 clustering_matrices_6h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrices_6h.pickle'
+clustering_matrices_1h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/clustering_matrices_1h.pickle'
+
 
 base_matrix_D = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_D.pickle'
 base_matrix_8h = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/data/base_matrix_8h.pickle'
@@ -36,6 +38,7 @@ gmm_figs = '/Users/oghinde/Academia/Research_projects/smart_grids/smart_meters/f
 gmm_log = '/Users/oghinde/Academia/Research_projects/smart_grids/smart_meters/figures/Kmeans/GMM_results.txt'
 
 val_results_path = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/results/validation/'
+tst_results_path = '/Users/oghinde/Academia/Research_projects/smart_grids/Iberdrola/results/test/'
 
 # Partitioning ratios
 

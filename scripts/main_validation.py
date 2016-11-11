@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Main execution script"""
+"""Main validation script"""
 
 # Author: Óscar G. Hinde
 
@@ -36,7 +36,7 @@ n_tr = 0.4
 n_val = 0.4
 n_tst = n_tr-n_val
 
-with open(resources.base_matrix_1h, 'r') as f:
+with open(resources.base_matrix_D, 'r') as f:
     clustering_matrix, codes = pickle.load(f)
 
 dims = clustering_matrix.shape
@@ -59,7 +59,7 @@ if args.scenario == 'weekly':
 										 							   n_user_clusters=args.user_K)
 
 	print '\n\nPREDICTION:\n'
-	tr_scores, val_scores, svr_val_hat = prediction_box.toeplitz_SVR_validate(clustering_matrix, cluster_index_list)
+	tr_scores, val_scores, svr_val_hat = prediction_box.toeplitz_SVR_validate(clustering_matrix, cluster_index_list, memory=5)
 	avg_val = np.mean(val_scores)
 	avg_series = np.mean(svr_val_hat, axis=0)
 
